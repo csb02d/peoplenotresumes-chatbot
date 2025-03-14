@@ -11,6 +11,9 @@ def chatbot_response(user_input):
         "how do I get started?": "Easy! Click below to schedule a quick call with us. [Book a Call](#)",
         "i’m a candidate, can you help?": "We focus on helping companies hire, but if you’re an exceptional candidate, reach out! We connect talent with the right opportunities.",
         "thanks": "Anytime! Let me know if you need anything else."
+        "how much do you cost?": "We offer flexible pricing based on your hiring needs. Book a quick call to discuss pricing options. [Schedule a Call](#)",
+"what are your fees?": "We tailor our fees based on the role and hiring model (fractional, hourly, or full placement). Let’s chat to see what fits your budget! [Book a Call](#)"
+
     }
     
     for key in responses.keys():
