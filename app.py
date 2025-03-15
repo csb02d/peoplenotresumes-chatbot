@@ -1,29 +1,44 @@
 import streamlit as st
-import random
+import difflib
 
+# Define chatbot responses
 def chatbot_response(user_input):
     responses = {
-           "hello": "Hey there! Looking for top-tier talent or a new opportunity?",
-        "how does fractional recruiting work?": "Fractional recruiting gives you expert hiring support without the cost of a full-time recruiter. We find niche, hard-to-source candidates fast.",
-        "who do you recruit for?": "We specialize in helping pre-IPO tech startups, cross-industry innovators, and high-growth companies find impossible-to-source talent.",
-        "how long does hiring take?": "We typically deliver top candidates in 2-4 weeks, depending on the role.",
-        "what makes you different?": "We don’t rely on job boards. We use deep industry connections, global reach, and AI-driven sourcing to find the right people fast.",
-        "how do I get started?": "Easy! Click below to schedule a quick call with us. [Book a Call](#)",
-        "i’m a candidate, can you help?": "We focus on helping companies hire, but if you’re an exceptional candidate, reach out! We connect talent with the right opportunities.",
-        "thanks": "Anytime! Let me know if you need anything else.",  # <--- This comma was missing
-        "how much do you cost?": "We offer flexible pricing based on your hiring needs. Book a quick call to discuss pricing options. [Schedule a Call](#)",
-        "what are your fees?": "We tailor our fees based on the role and hiring model (fractional, hourly, or full placement). Let’s chat to see what fits your budget! [Book a Call](#)"
+        "hello": "Hey there! Looking for top-tier talent or a new opportunity?",
+        "how does fractional recruiting work?": "Fractional recruiting gives you expert hiring support...",
+        "who do you recruit for?": "We specialize in helping pre-IPO tech startups...",
+        "how long does hiring take?": "We typically deliver top candidates in 2–4 weeks...",
+        "what makes you different?": "We don’t rely on job boards. We use deep industry connections...",
+        "how do I get started?": "Easy! Click below to schedule a call. [Book a Call](#)",
+        "i'm a candidate, can you help?": "We focus on helping companies hire...",
+        "thanks": "Anytime! Let me know if you need anything else.",
+        "how much do you cost?": "We offer flexible pricing based on hiring needs...",
+        "what are your fees?": "We tailor our fees based on the role and hiring model..."
     }
-    
-    for key in responses.keys():
-        if key in user_input.lower():
-            return responses[key]
-    
-    return "Good question! I can help with hiring, fractional recruiting, or candidate connections. What do you need?"
 
+    # Use fuzzy matching to find the closest question
+    closest_match = difflib.get_close_matches(user_input.lower(), responses.keys(), n=1, cutoff=0.6)
+    
+    if closest_match:
+        return responses[closest_match[0]]
+    return "I'm not sure about that. Try rephrasing your question!"
+
+# Streamlit App UI
 st.title("PeopleNotResumes AI Chatbot")
 
+# Initialize chat history
+if "messages" not in st.session_state:
+    st.session_state["messages"] = []
+
+# User input
 user_input = st.text_input("Ask me anything about hiring, recruiting, or job searches:")
+
 if user_input:
     response = chatbot_response(user_input)
-    st.write(response)
+    st.session_state["messages"].append(f"**You:** {user_input}")
+    st.session_state["messages"].append(f"**Bot:** {response}")
+
+# Display chat history
+for msg in st.session_state["messages"]:
+    st.write(msg)
+
