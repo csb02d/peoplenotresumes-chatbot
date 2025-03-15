@@ -20,7 +20,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Chatbot UI
-st.title("🤖 How Can We Help")
+st.title("🤖 How Can We Help?")
 st.write("Ask me anything about hiring, recruiting, or job searches:")
 
 user_input = st.text_input("")
